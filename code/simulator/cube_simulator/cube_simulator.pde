@@ -1,10 +1,15 @@
 /*
  * Processing Script to simulate the 3x3x3 cube. 
  * Use to test lighting patterns.
+ * 
+ * Moving the mouse on the x axis changes the 
+ * camera x position. Clicking toggles locking of
+ * the current view.
  */
 
 int CUBE_SIZE=100;
 Cube[][][] cubes;
+boolean viewLocked = false;
 
 class Cube
 {
@@ -32,14 +37,19 @@ class Cube
   }
 }
 
+void mouseReleased()
+{
+  if(viewLocked) viewLocked = false;
+  else viewLocked = true;
+}
+
 void setup()
 {
   size(640, 640, P3D); 
   background(0);
   lights();
-  //noLoop();
   frameRate(5);
-  camera(width/1.2, height/4, 
+  camera(width/1.2, height/100, 
         (height/2.0) / tan(PI*30.0 / 180.0), 
         width/2.0, height/2.0, 0, 0, 1, 0);
   
@@ -65,9 +75,12 @@ void setup()
 void draw()
 {
   background(0);
-  camera(mouseX/1.2, height/4, 
-        (height/2.0) / tan(PI*30.0 / 180.0), 
-        width/2.0, height/2.0, 0, 0, 1, 0);
+  if(!viewLocked)
+  {
+    camera(mouseX*2-width/2, height/100, 
+          (height/2.0) / tan(PI*30.0 / 180.0), 
+          width/2.0, height/2.0, 0, 0, 1, 0);
+  }
   pattern();
 }
 
