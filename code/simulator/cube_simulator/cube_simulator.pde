@@ -21,7 +21,6 @@ class Cube
   {
     fill(ir,ig,ib);
     display();
-    redraw();
   }
   
   void display()
@@ -38,12 +37,14 @@ void setup()
   size(640, 640, P3D); 
   background(0);
   lights();
-  noLoop();
+  //noLoop();
+  frameRate(5);
+  camera(width/1.2, height/4, 
+        (height/2.0) / tan(PI*30.0 / 180.0), 
+        width/2.0, height/2.0, 0, 0, 1, 0);
+  
   cubes = new Cube[3][3][3];
-}
-
-void draw()
-{
+  
   for(int col = 1; col <= 3; ++col)
   {
     for(int dep = 0; dep <3; ++dep)
@@ -59,6 +60,35 @@ void draw()
       }
     }
   }
-  cubes[0][0][1].changeColor(255, 123, 123);
 }
 
+void draw()
+{
+  background(0);
+  camera(mouseX/1.2, height/4, 
+        (height/2.0) / tan(PI*30.0 / 180.0), 
+        width/2.0, height/2.0, 0, 0, 1, 0);
+  pattern();
+}
+
+void pattern()
+{
+  // TODO: selection controls
+  randomPattern();
+}
+
+void randomPattern()
+{
+  for(int col = 0; col < 3; ++col)
+  {
+    for(int dep = 0; dep < 3; ++dep)
+    {
+      for(int row=0; row < 3; ++row)
+      {
+        cubes[row][dep][col].changeColor((int)random(255),
+                                         (int)random(255), 
+                                         (int)random(255));
+      }
+    }
+  }
+}
