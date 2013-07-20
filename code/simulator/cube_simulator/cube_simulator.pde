@@ -10,6 +10,7 @@
 int CUBE_SIZE=100;
 Cube[][][] cubes;
 boolean viewLocked = true;
+int patternMode = 1;
 
 class Cube
 {
@@ -102,8 +103,7 @@ void draw()
 {
   background(128);
   fill(0,0,0);
-  text("testString", 50, 50);
-  textSize(36);
+  
   if(!viewLocked)
   {
     camera(mouseX*2-width/2, height/100, 
@@ -113,11 +113,21 @@ void draw()
   pattern();
 }
 
+void keyPressed() {
+  if (key == '+') patternMode++; 
+  }
+
 void pattern()
 {
   // TODO: selection controls
-  //randomPattern();
-  rampPattern();
+  switch(patternMode % 2)
+  {
+    case 0: randomPattern();
+      break;
+    case 1: rampPattern();
+      break;
+    default: randomPattern();
+  }
 }
 
 void randomPattern()
